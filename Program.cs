@@ -7,11 +7,11 @@ namespace ProjetPIZZA
 {
     class PizzaPersonnalisee : Pizza
     {
-        List<string> ingredientsPersos = new List<string>();
+        //List<string> ingredientsPersos = new List<string>();
 
-        public PizzaPersonnalisee(string nom, float prix, bool vegetarienne) : base (nom, prix, false, null)
+        public PizzaPersonnalisee() : base ("Personnalisee", 5, false, null)
         {
-            this.ingredientsPersos = ingredientsPersos;
+            ingredients = new List<string>();
             DemanderIngredients();
         }
         public List<string> DemanderIngredients()
@@ -19,26 +19,24 @@ namespace ProjetPIZZA
             while (true)
             {
                 Console.WriteLine("Veuillez entrer un ingrédient de votre pizza personnalisée : (ENTER pour arreter)");
-                string ingredientPerso = Console.ReadLine();
-                if (ingredientPerso == "")
+                string ingredient = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(ingredient))
                 {
-                    ingredients = ingredientsPersos;
                     return ingredients;
                 }
                 else 
                 {
-                    ingredientsPersos.Add(ingredientPerso);
+                    ingredients.Add(ingredient);
                 }
             }
-
         }
     }
     class Pizza
     {
-        protected string nom;
-        protected float prix;
-        protected bool vegetarienne = false;
-        protected List<string> ingredients;
+        public string nom { get; protected set; }
+        float prix;
+        bool vegetarienne = false;
+        public List<string> ingredients { get; protected set;}
 
         public Pizza(string nom, float prix, bool vegetarienne, List<string> ingredients)
         {
@@ -84,18 +82,15 @@ namespace ProjetPIZZA
             Pizzas.Add(new Pizza("4 fromages", 10.5f, true, new List<string>() { "tomate", "mozzarella", "raclette", "parmesan", "roquefort" }));
             Pizzas.Add(new Pizza("Tartiflette", 12, false, new List<string>() { "crème", "raclette", "lardons", "patates" }));
             Pizzas.Add(new Pizza("veggie", 11, true, new List<string>() { "tomate", "mozzarella", "basicil", "roquette", "capres" }));
+            Pizzas.Add(new PizzaPersonnalisee());
 
             //listePizzas = listePizzas.OrderBy(x => x.prix).ToList();
             //listePizzas = listePizzas.OrderByDescending(x => x.prix).ToList();
 
-            /*foreach (var pizza in Pizzas)
+            foreach (var pizza in Pizzas)
             {
                 pizza.AfficherPizza();
-            }*/
-
-            List<string> ingredientsPersos = new List<string>();
-            Pizza PizzaPersonnalisee = new PizzaPersonnalisee("Personnalisee", 5, false);
-            PizzaPersonnalisee.AfficherPizza();
+            }
         }
     }
 }   
