@@ -5,13 +5,40 @@ using System.Text;
 
 namespace ProjetPIZZA
 {
-    
+    class PizzaPersonnalisee : Pizza
+    {
+        List<string> ingredientsPersos = new List<string>();
+
+        public PizzaPersonnalisee(string nom, float prix, bool vegetarienne) : base (nom, prix, false, null)
+        {
+            this.ingredientsPersos = ingredientsPersos;
+            DemanderIngredients();
+        }
+        public List<string> DemanderIngredients()
+        {
+            while (true)
+            {
+                Console.WriteLine("Veuillez entrer un ingrédient de votre pizza personnalisée : (ENTER pour arreter)");
+                string ingredientPerso = Console.ReadLine();
+                if (ingredientPerso == "")
+                {
+                    ingredients = ingredientsPersos;
+                    return ingredients;
+                }
+                else 
+                {
+                    ingredientsPersos.Add(ingredientPerso);
+                }
+            }
+
+        }
+    }
     class Pizza
     {
-        public string nom { get; private set; }
-        public float prix { get; private set; }
-        bool vegetarienne = false;
-        List<string> ingredients;
+        protected string nom;
+        protected float prix;
+        protected bool vegetarienne = false;
+        protected List<string> ingredients;
 
         public Pizza(string nom, float prix, bool vegetarienne, List<string> ingredients)
         {
@@ -25,13 +52,8 @@ namespace ProjetPIZZA
         {
             string badgeVege = " (V)";
             if (!vegetarienne) { badgeVege = ""; }
-            Console.WriteLine(FormatMots(nom) + badgeVege + " - " + prix + "€");
+            Console.WriteLine(FormatMots(nom) + badgeVege + " - " + prix +  "€");
 
-            /*var ingredientsAfficher = new List<string>();
-            foreach (var ingredient in ingredients)
-            {
-                ingredientsAfficher.Add(FormatMots(ingredient));
-            }*/
             var ingredientsAfficher = ingredients.Select(x => FormatMots(x)).ToList();
 
             Console.WriteLine(string.Join(", ", ingredientsAfficher));
@@ -66,35 +88,14 @@ namespace ProjetPIZZA
             //listePizzas = listePizzas.OrderBy(x => x.prix).ToList();
             //listePizzas = listePizzas.OrderByDescending(x => x.prix).ToList();
 
-            foreach (var pizza in Pizzas)
+            /*foreach (var pizza in Pizzas)
             {
                 pizza.AfficherPizza();
-            }
+            }*/
 
-            Pizza pizzaPrixMin = Pizzas[0];
-            Pizza pizzaPrixMax = Pizzas[0];
-
-            foreach (var pizza in Pizzas)
-            {
-                if (pizzaPrixMin.prix > pizza.prix)
-                {
-                    pizzaPrixMin = pizza;
-                }
-            }
-
-            foreach (var pizza in Pizzas)
-            {
-                if (pizzaPrixMax.prix < pizza.prix)
-                {
-                    pizzaPrixMax = pizza;
-                }
-            }
-
-            Console.WriteLine("La pizza la moins cher est :");
-            pizzaPrixMin.AfficherPizza();
-
-            Console.WriteLine("La pizza la plus cher est :");
-            pizzaPrixMax.AfficherPizza();
+            List<string> ingredientsPersos = new List<string>();
+            Pizza PizzaPersonnalisee = new PizzaPersonnalisee("Personnalisee", 5, false);
+            PizzaPersonnalisee.AfficherPizza();
         }
     }
 }   
