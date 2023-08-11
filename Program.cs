@@ -7,18 +7,19 @@ namespace ProjetPIZZA
 {
     class PizzaPersonnalisee : Pizza
     {
-        //List<string> ingredientsPersos = new List<string>();
-
-        public PizzaPersonnalisee() : base ("Personnalisee", 5, false, null)
+        static int indexPizza = 1;
+        public PizzaPersonnalisee() : base ("Personnalisée", 5, false, null)
         {
+            nom = "Pizza Personnalisée " + indexPizza;
             ingredients = new List<string>();
             DemanderIngredients();
+            indexPizza++;
         }
         public List<string> DemanderIngredients()
         {
             while (true)
             {
-                Console.WriteLine("Veuillez entrer un ingrédient de votre pizza personnalisée : (ENTER pour arreter)");
+                Console.Write("Veuillez entrer un ingrédient de votre pizza personnalisée " + indexPizza + " (ENTER pour arreter) : ");
                 string ingredient = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(ingredient))
                 {
@@ -26,15 +27,25 @@ namespace ProjetPIZZA
                 }
                 else 
                 {
-                    ingredients.Add(ingredient);
+                    if (ingredients.Contains(ingredient))
+                    {
+                        Console.WriteLine("Vous avez déjà ajouté cet ingredient. Veuillez en choisir un nouveau.");
+                    }
+                    else
+                    {
+                        ingredients.Add(ingredient);
+                        Console.WriteLine(FormatMots(string.Join(", ", ingredients)));
+                        prix = prix + 1.5f;
+                    }
+                    Console.WriteLine();
                 }
             }
         }
     }
     class Pizza
     {
-        public string nom { get; protected set; }
-        float prix;
+        protected string nom;
+        public float prix { get; protected set; }
         bool vegetarienne = false;
         public List<string> ingredients { get; protected set;}
 
@@ -58,7 +69,7 @@ namespace ProjetPIZZA
             Console.WriteLine();
         }
 
-        private static string FormatMots(string nom)
+        protected static string FormatMots(string nom)
         {
             if (string.IsNullOrEmpty(nom)) { return nom; }
 
@@ -82,6 +93,7 @@ namespace ProjetPIZZA
             Pizzas.Add(new Pizza("4 fromages", 10.5f, true, new List<string>() { "tomate", "mozzarella", "raclette", "parmesan", "roquefort" }));
             Pizzas.Add(new Pizza("Tartiflette", 12, false, new List<string>() { "crème", "raclette", "lardons", "patates" }));
             Pizzas.Add(new Pizza("veggie", 11, true, new List<string>() { "tomate", "mozzarella", "basicil", "roquette", "capres" }));
+            Pizzas.Add(new PizzaPersonnalisee());
             Pizzas.Add(new PizzaPersonnalisee());
 
             //listePizzas = listePizzas.OrderBy(x => x.prix).ToList();
